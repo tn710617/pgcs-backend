@@ -12,9 +12,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('message_rooms', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->ulid('id')->primary();
-            $table->string('room_name')->comment('房間名稱')->unique();
+            $table->ulid('message_room_id')->comment('房號');
+            $table->string('message_content')->comment('訊息內容');
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('建立時間');
             $table->dateTime('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))->comment('更新時間');
         });
@@ -25,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('message_rooms');
+        Schema::dropIfExists('messages');
     }
 };
