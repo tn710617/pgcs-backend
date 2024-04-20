@@ -1,7 +1,13 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
+use App\Http\Controllers\MessageRoomController;
+use App\Http\Middleware\AuthenticateUser;
 
-Route::post('register', [UserAuthController::class, 'register'])->name('users.auth.register');
+Route::post('users/register', [UserAuthController::class, 'register'])->name('users.auth.register');
+
+Route::group(['middleware' => AuthenticateUser::class], function () {
+    Route::post('message-rooms/create-or-enter',
+        [MessageRoomController::class, 'createOrEnter'])->name('message-rooms.create-or-enter');
+});

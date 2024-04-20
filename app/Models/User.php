@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
+
     use HasFactory, Notifiable, HasUlids;
 
     /**
@@ -43,5 +45,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Attributes
+     */
+    public function currentMessageRoom(): BelongsTo
+    {
+        return $this->belongsTo(MessageRoom::class, 'current_room_id');
     }
 }
