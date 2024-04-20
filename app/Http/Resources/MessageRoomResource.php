@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class MessageRoomResource extends JsonResource
 {
 
     /**
@@ -17,8 +17,7 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_name' => $this->user_name,
-            'current_room' => new MessageRoomResource($this->currentMessageRoom),
+            'room_name' => $this->room_name,
         ];
     }
 }

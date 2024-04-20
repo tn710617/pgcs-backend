@@ -15,4 +15,8 @@ class Message extends Model
         'message_content',
         'message_room_id',
     ];
+
+    protected $casts = [
+        'message_room_id' => 'string',
+    ];
 }

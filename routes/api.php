@@ -11,5 +11,5 @@ Route::post('users/register', [UserAuthController::class, 'register'])->name('us
 Route::group(['middleware' => AuthenticateUser::class], function () {
     Route::post('message-rooms/create-or-enter',
         [MessageRoomController::class, 'createOrEnter'])->name('message-rooms.create-or-enter');
-    Route::post('messages/create', [MessageController::class, 'create'])->name('messages.create');
+    Route::apiResource('messages', MessageController::class)->only(['create', 'index']);
 });

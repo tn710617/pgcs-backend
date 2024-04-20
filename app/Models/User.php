@@ -48,7 +48,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Attributes
+     * Relations
      */
     public function currentMessageRoom(): BelongsTo
     {
