@@ -27,4 +27,11 @@ class UserAuthController extends Controller
 
         return UserResource::make($user);
     }
+
+    public function getSelf()
+    {
+        $user = User::find(request()->input('user_id'));
+
+        return UserResource::make($user);
+    }
 }
