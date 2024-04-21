@@ -11,6 +11,6 @@ Route::post('users/register', [UserAuthController::class, 'register'])->name('us
 Route::group(['middleware' => AuthenticateUser::class], function () {
     Route::post('message-rooms/create-or-enter',
         [MessageRoomController::class, 'createOrEnter'])->name('message-rooms.create-or-enter');
-    Route::apiResource('messages', MessageController::class)->only(['create', 'index']);
+    Route::apiResource('messages', MessageController::class)->only(['store', 'index']);
     Route::get('users/self', [UserAuthController::class, 'getSelf'])->name('users.auth.get-self');
 });

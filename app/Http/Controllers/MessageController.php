@@ -10,7 +10,7 @@ use App\Models\User;
 class MessageController extends Controller
 {
 
-    public function create(MessageCreateRequest $request)
+    public function store(MessageCreateRequest $request)
     {
         $user = User::find($request->input('user_id'));
 
@@ -30,7 +30,7 @@ class MessageController extends Controller
 
         abort_if(is_null($user->currentMessageRoom), 403);
 
-        $messages = $user->currentMessageRoom->messages()->take(5)->orderByDesc('created_at')->get();
+        $messages = $user->currentMessageRoom->messages()->take(5)->orderByDesc('created_at')->get()->sort();
 
         return MessageCollection::make($messages);
     }

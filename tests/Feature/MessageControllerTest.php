@@ -25,7 +25,7 @@ class MessageControllerTest extends TestCase
             ])->id
         ];
 
-        $this->post(route('messages.create'), $expectation)
+        $this->post(route('messages.store'), $expectation)
             ->assertCreated();
 
         $this->assertDatabaseHas('messages', [

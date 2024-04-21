@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthenticateUser
@@ -17,11 +18,11 @@ class AuthenticateUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->has('user_id')) {
+        if (!$request->has('user_id') || !$request->filled('user_id')) {
             abort(401);
         }
 
-        $user = User::find(['id' => $request->input('user_id')]);
+        $user = User::find($request->input('user_id'));
 
         abort_if(is_null($user), 401);
 
