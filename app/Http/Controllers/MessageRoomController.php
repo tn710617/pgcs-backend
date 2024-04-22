@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MessageRoomCreateOrEnterRequest;
 use App\Models\MessageRoom;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class MessageRoomController extends Controller
 {
 
     public function createOrEnter(MessageRoomCreateOrEnterRequest $request)
     {
-        $user = User::find($request->input('user_id'));
+        $user = Auth::guard('simple')->user();
 
         $room = MessageRoom::query()->firstOrCreate([
             'room_name' => $request->input('room_name')

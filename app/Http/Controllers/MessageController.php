@@ -2,31 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageCreated;
 use App\Http\Requests\MessageCreateRequest;
 use App\Http\Resources\MessageCollection;
 use App\Models\Message;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
 
     public function store(MessageCreateRequest $request)
     {
-        $user = User::find($request->input('user_id'));
+        $user = Auth::guard('simple')->user();
 
         abort_if(is_null($user->current_room_id), 403);
 
-        Message::create([
+        $message = Message::create([
             'message_content' => $request->input('message_content'),
             'message_room_id' => $user->current_room_id
         ]);
+
+        broadcast(new MessageCreated($message))->toOthers();
 
         return response()->json('', 201);
     }
 
     public function index()
     {
-        $user = User::find(request()->input('user_id'));
+        $user = Auth::guard('simple')->user();
 
         abort_if(is_null($user->currentMessageRoom), 403);
 

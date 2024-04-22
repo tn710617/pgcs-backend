@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserAuthRegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserAuthController extends Controller
 {
@@ -30,7 +31,7 @@ class UserAuthController extends Controller
 
     public function getSelf()
     {
-        $user = User::find(request()->input('user_id'));
+        $user = Auth::guard('simple')->user();
 
         return UserResource::make($user);
     }
