@@ -13,6 +13,19 @@ class MessageRoomControllerTest extends TestCase
 
     use RefreshDatabase;
 
+    public function test_can_leave_message_room()
+    {
+        $user = User::factory()->create([
+            'current_room_id' => MessageRoom::factory()->create()->id
+        ]);
+
+        $this->actingAs($user, 'simple')
+            ->post(route('message-rooms.leave'))
+            ->assertNoContent();
+
+        $this->assertNull($user->currentMessageRoom);
+    }
+
     public function test_can_create_or_enter_message_room()
     {
         $expectation = [

@@ -24,4 +24,15 @@ class MessageRoomController extends Controller
 
         return response()->noContent();
     }
+
+    public function leave()
+    {
+        $user = Auth::guard('simple')->user();
+
+        $user->update([
+            'current_room_id' => null
+        ]);
+
+        return response()->noContent();
+    }
 }

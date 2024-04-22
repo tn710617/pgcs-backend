@@ -23,7 +23,6 @@ class MessageRoomCreateOrEnterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'string', 'max:255', 'exists:users,id'],
             'room_name' => ['required', 'string', 'max:255'],
         ];
     }
