@@ -23,8 +23,6 @@ class LogReqRes
         $cloneResponse = clone($response);
         $cloneRequest = clone($request);
 
-        $this->maskSensitiveInfo($cloneRequest, $cloneResponse);
-
         if ($cloneRequest->hasHeader('Authorization')) {
             $cloneRequest->headers->set('Authorization', 'Bearer ******');
         }
@@ -52,25 +50,5 @@ class LogReqRes
         );
 
         return $response;
-    }
-
-    private function maskSensitiveInfo(&$cloneRequest, $cloneResponse)
-    {
-        if (app()->isProduction()) {
-            if ($cloneRequest->has('password')) {
-                $cloneRequest = $cloneRequest->merge(['password' => '******']);
-            }
-            if ($cloneRequest->cookie('one_dream_user_refresh_token')) {
-                $cloneRequest->cookies->set('one_dream_user_refresh_token', '******');
-            }
-
-            if (Arr::has($cloneResponse->getOriginalContent(), 'data.access_token')) {
-                $content = $cloneResponse->getOriginalContent();
-                $content['data']['access_token'] = '******';
-                $cloneResponse->setContent(json_encode($content));
-            }
-
-            $cloneResponse->cookie('one_dream_user_refresh_token', 'masked');
-        }
     }
 }
